@@ -5,6 +5,20 @@
 
 
 
+parameters:
+  - name: pythonVersion
+    displayName: 'Python version'
+    type: string
+    default: '3.11'
+    values:
+      - '3.10'
+      - '3.11'
+      - '3.12'
+  - name: runTests
+    displayName: 'Run automated tests'
+    type: boolean
+    default: true
+
 trigger:
   - main
 
@@ -15,7 +29,7 @@ steps:
   - task: UsePythonVersion@0
     displayName: 'Set up Python'
     inputs:
-      versionSpec: '3.11'
+      versionSpec: '${{ parameters.pythonVersion }}'
 
   - script: |
       python -m pip install --upgrade pip
@@ -23,6 +37,7 @@ steps:
       python -m pip install pytest
     displayName: 'Install dependencies'
 
-  - script: |
-      python -m pytest -v
-    displayName: 'Run automated tests'
+  - ${{ if eq(parameters.runTests, true) }}:
+    - script: |
+        python -m pytest -v
+      displayName: 'Run automated tests'
