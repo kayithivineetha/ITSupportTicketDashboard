@@ -25,6 +25,10 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  PIP_DEFAULT_TIMEOUT: 120
+  PIP_RETRIES: 10
+
 steps:
   - task: UsePythonVersion@0
     displayName: 'Set up Python'
@@ -33,9 +37,7 @@ steps:
 
   - script: |
       set -e
-      python -m pip install --upgrade pip
-      python -m pip install -r requirements.txt
-      python -m pip install pytest
+      python -m pip install -r requirements.txt pytest
     displayName: 'Install dependencies'
 
   - ${{ if eq(parameters.runTests, true) }}:
