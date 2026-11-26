@@ -1,0 +1,46 @@
+Streamlit-based IT support ticket dashboard for tracking, filtering and creating incidents, with CI through Azure Pipelines and deployment to Azure Web App.
+
+Suggested topics: python streamlit pandas azure-pipelines azure-web-app ci-cd dashboard it-support ticketing-system
+
+README description
+IT Support Ticket Dashboard
+
+A web dashboard built with Python, Streamlit and pandas for monitoring and managing IT support incidents. It is deployed on Azure App Service (Web App), and an Azure Pipelines CI pipeline builds and tests every push.
+
+Features
+Ticket summary: metric cards show total tickets and counts for Open, In Progress, Resolved and Closed.
+Filtering and search: filter by status and priority, or search by ticket ID or title.
+Incident details: select a ticket to see its title, priority, status, assignee and description.
+Ticket creation: a form takes a title, description, priority, initial status and assignee. It validates the title and auto-generates the next ticket ID.
+Session state: tickets are held in st.session_state, seeded with sample incidents such as Wi-Fi issues, Outlook problems, password resets and shared drive access.
+Tech stack
+Area	Tools
+Frontend / app	Streamlit
+Data handling	pandas
+Testing	test_app.py (automated tests)
+CI	Azure Pipelines (azure-pipelines.yml)
+Hosting	Azure Web App
+CI/CD
+
+The Azure Pipelines run is triggered on each push to main and runs on an ubuntu-latest Microsoft-hosted agent. It:
+
+Checks out the repository
+Sets up Python
+Installs dependencies from requirements.txt
+Runs the automated tests
+
+The web app was deployed to Azure through a Web App deployment in its own resource group.
+
+Project structure
+├── app.py                 # Streamlit dashboard
+├── test_app.py            # Automated tests
+├── requirements.txt       # Python dependencies
+└── azure-pipelines.yml    # CI pipeline definition
+Run locally
+bash
+pip install -r requirements.txt
+streamlit run app.py
+Notes
+Ticket data is in-memory sample data, so new tickets reset when the session restarts. A database such as SQLite, PostgreSQL or Azure SQL would be a natural next step.
+
+Two things I couldn't see: I couldn't open azure-pipelines.yml or test_app.py, so the CI steps come from your screenshots. If the pipeline also deploys to the Web App, or if the tests use pytest, tell me and I'll adjust the wording.
